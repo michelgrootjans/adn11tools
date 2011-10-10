@@ -1,6 +1,5 @@
 ﻿using MobWars.Core.Entities;
 using MobWars.Core.Infrastructure;
-using MobWars.Core.Players;
 using MobWars.Core.Queries;
 
 namespace MobWars.Core.Battle
@@ -10,7 +9,7 @@ namespace MobWars.Core.Battle
         ICommandHandler<StartRiskyFightCommand>,
         ICommandHandler<StartDeadlyFightCommand>
     {
-        private IGetCurrentPlayerDbQuery getPlayerQuery;
+        private readonly IGetCurrentPlayerDbQuery getPlayerQuery;
 
         public StarFightCommandHandler(IGetCurrentPlayerDbQuery getPlayerQuery)
         {
