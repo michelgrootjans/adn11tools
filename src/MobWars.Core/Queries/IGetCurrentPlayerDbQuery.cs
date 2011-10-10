@@ -23,7 +23,7 @@ namespace MobWars.Core.Queries
         {
             return session
                 .CreateCriteria<Player>()
-                .Add(Restrictions.Eq("Username", "scott")) //I know, this isharcoded for the demo
+                .Add(Restrictions.Eq("Username", "scott")) // we'll get to that during the demo
                 .UniqueResult<Player>();
         }
     }
