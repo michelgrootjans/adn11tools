@@ -69,10 +69,10 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\IApplicationContext.cs" />
     <Compile Include="Infrastructure\ICommandDispatcher.cs" />
-    <Compile Include="Infrastructure\IGenericItemMapper.cs" />
-    <Compile Include="Infrastructure\IGenericListMapper.cs" />
-    <Compile Include="Infrastructure\IGenericMapper.cs" />
-    <Compile Include="Infrastructure\IMapper.cs" />
+    <Compile Include="Infrastructure\Mapping\IGenericItemMapper.cs" />
+    <Compile Include="Infrastructure\Mapping\IGenericListMapper.cs" />
+    <Compile Include="Infrastructure\Mapping\IGenericMapper.cs" />
+    <Compile Include="Infrastructure\Mapping\IMapper.cs" />
     <Compile Include="Infrastructure\INhibernateQuery.cs" />
     <Compile Include="Infrastructure\IQueryHandlerFactory.cs" />
     <Compile Include="Infrastructure\NHibernateTransactionInterceptor.cs" />
@@ -102,9 +102,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\Mapping\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
