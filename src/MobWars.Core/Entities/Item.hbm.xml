@@ -2,10 +2,10 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
                    assembly="MobWars.Core"
                    namespace="MobWars.Core.Entities"
-                   default-lazy="false">
+                   default-lazy="true">
 
   <class name="Item" table="Items" abstract="true">
-    <id name="Id" column="Id" type="Guid">
+    <id name="id" column="Id" type="Guid" access="field">
       <generator class="guid" />
     </id>
 

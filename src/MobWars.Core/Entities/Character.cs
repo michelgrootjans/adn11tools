@@ -9,15 +9,16 @@ namespace MobWars.Core.Entities
     public class Character
     {
         private int maxHitPoints;
-        public Guid Id { get; private set; }
+        protected Iesi.Collections.Generic.ISet<Item> inventory;
+        protected readonly Random random = new Random();
+
+        public virtual Guid Id { get; private set; }
         public virtual string Name { get; private set; }
         public virtual int Level { get; protected set; }
         public virtual int HitPoints { get; protected set; }
-        protected Iesi.Collections.Generic.ISet<Item> inventory;
         public virtual int Attack { get; protected set; }
         public virtual int Defence { get; protected set; }
         public virtual int Gold { get; protected set; }
-        protected readonly Random random = new Random();
 
         protected Character()
         {
@@ -46,7 +47,7 @@ namespace MobWars.Core.Entities
             get { return new ReadOnlyCollection<Item>(inventory.ToList()); }
         }
 
-        public int Life
+        public virtual int Life
         {
             get
             {
@@ -60,7 +61,7 @@ namespace MobWars.Core.Entities
             get { return HitPoints <= 0 || MaxHitPoints == 0; }
         }
 
-        public bool IsAlive
+        public virtual bool IsAlive
         {
             get { return !IsDead; }
         }

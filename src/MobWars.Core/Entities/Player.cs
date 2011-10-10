@@ -4,10 +4,10 @@ namespace MobWars.Core.Entities
 {
     public class Player : Character
     {
-        protected int Experience { get; private set; }
+        protected virtual int Experience { get; private set; }
         public virtual string Username { get; private set; }
         public virtual string Password { get; private set; }
-        public Character Adversary { get; private set; }
+        public virtual Character Adversary { get; private set; }
 
         protected Player()
         {
@@ -25,7 +25,7 @@ namespace MobWars.Core.Entities
             Gold = 30;
         }
 
-        public void Buy(Item item)
+        public virtual void Buy(Item item)
         {
             if (item.Price > Gold) return;
             Gold -= item.Price;
@@ -33,17 +33,17 @@ namespace MobWars.Core.Entities
             item.Owner = this;
         }
 
-        public bool IsFighting
+        public virtual bool IsFighting
         {
             get { return Adversary.Exists() && Adversary.IsAlive; }
         }
 
-        public void StartFighting(Character monster)
+        public virtual void StartFighting(Character monster)
         {
             Adversary = monster;
         }
 
-        public void AttackAdversary()
+        public virtual void AttackAdversary()
         {
             if (!IsFighting) return;
             Adversary.AddDamage(Attack - Adversary.Defence);
@@ -74,7 +74,7 @@ namespace MobWars.Core.Entities
             MaxHitPoints += random.Next(25, 30);
         }
 
-        public void Retreat()
+        public virtual void Retreat()
         {
             if (!IsFighting) return;
             if (Adversary.IsAlive)
