@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ToolsDir>tools</ToolsDir>
+    <PackagesDir>packages</PackagesDir>
+    <NUnitDir>$(PackagesDir)\NUnit.2.5.10.11092\tools</NUnitDir>
+  </PropertyGroup>
+
+  <Import Project="$(ToolsDir)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+
+  <Target Name="CI">
+    <CallTarget Targets="UpdateAssemblyInfo" />
+    <CallTarget Targets="Compile" />
+  </Target>
+  
+  <Target Name="Build">
+    <CallTarget Targets="Compile" />
+    <CallTarget Targets="UnitTests" />
+    <CallTarget Targets="IntegrationTests" />
+  </Target>
+
+  <Target Name="UpdateAssemblyInfo" >
+    <PropertyGroup>
+      <MajorVersion>1</MajorVersion>
+      <MinorVersion>0</MinorVersion>
+    </PropertyGroup>
+    <CreateProperty Value="0" Condition="'$(Build)'==''">
+      <Output TaskParameter="Value" PropertyName="Build"/>
+    </CreateProperty>
+    <CreateProperty Value="0" Condition="'$(Revision)'==''">
+      <Output TaskParameter="Value" PropertyName="Revision"/>
+    </CreateProperty>
+
+    <Message Text="Preparing Version $(MajorVersion).$(MinorVersion).$(Build).$(Revision)"/>
+
+    <ItemGroup>
+      <AssemblyInfoFiles Include="**\AssemblyInfo.cs" />
+    </ItemGroup>
+
+    <FileUpdate
+         Files="@(AssemblyInfoFiles)"
+         Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]"
+         ReplacementText="AssemblyFileVersion(&quot;$(MajorVersion).$(MinorVersion).$(Build).$(Revision)&quot;)]"
+    />
+    <FileUpdate
+         Files="@(AssemblyInfoFiles)"
+         Regex="AssemblyVersion\(&quot;.*&quot;\)\]"
+         ReplacementText="AssemblyVersion(&quot;$(MajorVersion).$(MinorVersion).$(Build).$(Revision)&quot;)]"
+    />
+    <FileUpdate
+         Files="@(AssemblyInfoFiles)"
+         Regex="AssemblyCompany\(&quot;.*&quot;\)\]"
+         ReplacementText="AssemblyCompany(&quot;ProvAnt&quot;)]"
+    />
+    <FileUpdate
+     Files="@(AssemblyInfoFiles)"
+     Regex="AssemblyCopyright\(&quot;.*&quot;\)\]"
+     ReplacementText="AssemblyCopyright(&quot;Copyright © Provincie Antwerpen&quot;)]"
+    />
+  </Target>
+
+  <Target Name="Compile">
+    <Message Text="Compiling the solution..."/>
+
+    <CreateProperty Value="Debug" Condition="'$(Configuration)'==''">
+      <Output TaskParameter="Value" PropertyName="Configuration"/>
+    </CreateProperty>
+
+    <CreateProperty Value="Build" Condition="'$(BuildConfiguration)'==''">
+      <Output TaskParameter="Value" PropertyName="BuildConfiguration"/>
+    </CreateProperty>
+
+    <CreateProperty Value="false" Condition="'$(MvcBuildViews)'==''">
+      <Output TaskParameter="Value" PropertyName="MvcBuildViews"/>
+    </CreateProperty>
+
+    <MSBuild Projects="MobWars.sln" BuildInParallel="true" Targets="$(BuildConfiguration)"
+             Properties="Configuration=$(Configuration)" />
+  </Target>
+
+  <Target Name="UnitTests" DependsOnTargets="Compile">
+    <ItemGroup>
+      <UnitTestAssemblies Include="MobWars.Test.Unit\bin\$(Configuration)\*Unit.dll" />
+    </ItemGroup>
+
+    <Message Text="Running unit tests: @(UnitTestAssemblies)"/>
+    <NUnit Assemblies="@(UnitTestAssemblies)" ToolPath="$(NUnitDir)" DisableShadowCopy="true" />
+  </Target>
+
+  <Target Name="IntegrationTests" DependsOnTargets="Compile">
+    <ItemGroup>
+      <IntegrationTestAssemblies Include="MobWars.Test.Integration\bin\$(Configuration)\*Integration.dll" />
+    </ItemGroup>
+
+    <Message Text="Running integration tests: @(UnitTestAssemblies)"/>
+    <NUnit Assemblies="@(IntegrationTestAssemblies)" ToolPath="$(NUnitDir)" DisableShadowCopy="true" />
+  </Target>
+
+</Project>

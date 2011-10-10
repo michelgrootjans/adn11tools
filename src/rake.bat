@@ -1,0 +1,1 @@
+MobWars.Migrations\bin\Debug\MobWars.Migrations.exe %1 %2

@@ -1,0 +1,31 @@
+﻿@using MobWars.Web.Controllers;
+@using MobWars.Core.Battle
+@using Microsoft.Web.Mvc;
+
+@model BattleDto
+
+@{
+    ViewBag.Title = "Ready to fight";
+}
+
+<h2>You are in the open</h2>
+<h3>What do you want to do?</h3>
+
+<div>
+    @using (Html.BeginForm("StartEasyFight", "Battle")){
+        <input type="submit" value="Go get a drink and start a bar fight " />
+    }
+
+</div>
+<div>
+    @using (Html.BeginForm("StartRiskyFight", "Battle"))
+    {
+        <input type="submit" value="Take a walk in the fields" />
+    }
+</div>
+<div>
+    @using (Html.BeginForm("StartDeadlyFight", "Battle"))
+    {
+        <input type="submit" value="Go into the forbidden forest" />
+    }
+</div>

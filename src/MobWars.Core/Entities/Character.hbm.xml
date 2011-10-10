@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="MobWars.Core"
+                   namespace="MobWars.Core.Entities"
+                   default-lazy="false">
+
+  <class name="Character" table="Characters">
+    <id name="Id" column="Id" type="Guid">
+      <generator class="guid" />
+    </id>
+
+    <discriminator column="discriminator" />
+    <property name="Name" />
+    
+    <property name="Level" />
+    <property name="maxHitPoints" access="field" />
+    <property name="HitPoints" />
+    <property name="Attack" />
+    <property name="Defence" />
+    <property name="Gold" />
+
+    <set name="inventory" cascade="all-delete-orphan" access="field" inverse="true">
+      <key column="OwnerId" />
+      <one-to-many class="Item" />
+    </set>
+
+    <subclass name="Player" discriminator-value="player">
+      <property name="Password" />
+      <property name="Username" />
+      <property name="Experience" />
+      <many-to-one name="Adversary" unique="true" column="Adversary" cascade="all-delete-orphan" />
+
+    </subclass>
+
+    <subclass name="Monster" discriminator-value="monster" />
+    
+  </class>
+
+</hibernate-mapping>

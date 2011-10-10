@@ -1,0 +1,41 @@
+﻿@using MobWars.Core.Battle
+@using MobWars.Web.Controllers;
+@using Microsoft.Web.Mvc;
+
+@model BattleDto
+
+@{
+    ViewBag.Title = "Fighting...";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#player_progress").progressbar({ value: @Model.Player.Life })
+        $("#monster_progress").progressbar({ value: @Model.Monster.Life })
+    });
+</script>
+
+<h2>You are fighting a @Model.Monster.Name</h2>
+<h3>What do you want to do?</h3>
+
+<div class="property">
+    You @Model.Player.HitPoints / @Model.Player.MaxHitPoints HP
+    <div id="player_progress" class="progressbar" />
+</div>
+
+<div class="property">
+    @Model.Monster.Name: @Model.Monster.HitPoints / @Model.Monster.MaxHitPoints HP
+    <div id="monster_progress" class="progressbar" />
+</div>
+
+<div>
+@using (Html.BeginForm("Attack", "Battle")){
+    <input type="submit" value="Attack" />
+}
+</div>
+
+<div>
+@using (Html.BeginForm("Retreat", "Battle")){
+    <input type="submit" value="Retreat" />
+}
+</div>

@@ -1,0 +1,53 @@
+﻿@using MobWars.Core.Shop
+
+@model ViewShopDto
+
+@{
+    ViewBag.Title = "The old shop in town";
+}
+
+<h2>Hello stranger</h2>
+You have @Model.Gold GP
+<div id="content">
+    <div id="shop">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Shop</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Shop)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+                        @using (Html.BeginForm("Buy", "Shop")){
+                              @Html.Hidden("itemId", item.Id)
+                              <input type="submit" value="Buy for @item.Price GP" />
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="inventory">
+        <table>
+            <thead>
+                <tr>
+                    <th>Inventory</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Inventory)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
