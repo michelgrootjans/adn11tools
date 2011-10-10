@@ -17,8 +17,7 @@ namespace MobWars.Web.App_Start.WindsorInstallers
 
             container.Register(AllTypes.FromAssemblyContaining<IQueryHandler>()
                                    .BasedOn<IQueryHandler>().WithService.AllInterfaces()
-                                   .Configure((h => h.LifeStyle.Is(LifestyleType.Transient)
-                                                        .Interceptors<NHibernateTransactionInterceptor>())));
+                                   .Configure((h => h.LifeStyle.Is(LifestyleType.Transient))));
         }
     }
 }

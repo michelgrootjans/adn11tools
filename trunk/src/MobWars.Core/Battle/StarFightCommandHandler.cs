@@ -10,6 +10,12 @@ namespace MobWars.Core.Battle
         ICommandHandler<StartRiskyFightCommand>,
         ICommandHandler<StartDeadlyFightCommand>
     {
+        private IGetCurrentPlayerDbQuery getPlayerQuery;
+
+        public StarFightCommandHandler(IGetCurrentPlayerDbQuery getPlayerQuery)
+        {
+            this.getPlayerQuery = getPlayerQuery;
+        }
 
         public void Handle(StartEasyFightCommand command)
         {
@@ -28,14 +34,9 @@ namespace MobWars.Core.Battle
 
         private void StartFightAtLevel(double levelFactor, string name)
         {
-            using(var session = NHibernateSessionProvider.OpenSession())
-            using(var transaction = session.BeginTransaction())
-            {
-                var player = new GetCurrentPlayerDbQuery(session).GetCurrentPlayer();
-                var monster = new Monster(levelFactor * player.Level, name);
-                player.StartFighting(monster);
-                transaction.Commit();
-            }
+            var player = getPlayerQuery.GetCurrentPlayer();
+            var monster = new Monster(levelFactor*player.Level, name);
+            player.StartFighting(monster);
         }
     }
 }

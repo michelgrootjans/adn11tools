@@ -1,6 +1,4 @@
-using MobWars.Core.Entities;
 using MobWars.Core.Infrastructure;
-using MobWars.Core.Players;
 using MobWars.Core.Queries;
 
 namespace MobWars.Core.Battle
@@ -12,32 +10,27 @@ namespace MobWars.Core.Battle
 
     public class PlayerBattleQueryHandler : IPlayerBattleQueryHandler
     {
-        public BattleDto Handle()
-        {
-            using (var session = NHibernateSessionProvider.OpenSession())
-            {
-                var player = new GetCurrentPlayerDbQuery(session).GetCurrentPlayer();
-                var battle = new BattleDto
-                                 {
-                                     IsOngoing = player.IsFighting,
-                                     Player = Map(player)
-                                 };
-                if (player.IsFighting)
-                    battle.Monster = Map(player.Adversary);
+        private readonly IGetCurrentPlayerDbQuery getCurrentPlayerQuery;
+        private readonly IGenericMapper mapper;
 
-                return battle;
-            }
+        public PlayerBattleQueryHandler(IGetCurrentPlayerDbQuery getCurrentPlayerQuery, IGenericMapper mapper)
+        {
+            this.getCurrentPlayerQuery = getCurrentPlayerQuery;
+            this.mapper = mapper;
         }
 
-        private CharacterDto Map(Character character)
+        public BattleDto Handle()
         {
-            return new CharacterDto
-                       {
-                           HitPoints = character.HitPoints,
-                           Life = character.Life,
-                           MaxHitPoints = character.MaxHitPoints,
-                           Name = character.Name
-                       };
+            var player = getCurrentPlayerQuery.GetCurrentPlayer();
+            var battle = new BattleDto
+                             {
+                                 IsOngoing = player.IsFighting,
+                                 Player = mapper.Map(player).ToA<CharacterDto>()
+                             };
+            if (player.IsFighting)
+                battle.Monster = mapper.Map(player.Adversary).ToA<CharacterDto>();
+
+            return battle;
         }
     }
 }
