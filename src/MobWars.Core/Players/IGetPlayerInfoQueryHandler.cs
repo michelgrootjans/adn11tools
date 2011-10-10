@@ -17,7 +17,8 @@ namespace MobWars.Core.Players
         {
             using (var session = NHibernateSessionProvider.OpenSession())
             {
-                var player = new GetCurrentPlayerDbQuery(session).GetCurrentPlayer();
+                var player = new GetCurrentPlayerDbQuery(session)
+                    .GetCurrentPlayer();
                 return Map(player);
             }
         }
