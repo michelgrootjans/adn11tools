@@ -8,6 +8,13 @@ namespace MobWars.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly MembershipProvider membershipProvider;
+
+        public AccountController(MembershipProvider membershipProvider)
+        {
+            this.membershipProvider = membershipProvider;
+        }
+
         [HttpGet]
         public ActionResult LogOn()
         {
@@ -19,7 +26,7 @@ namespace MobWars.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (new MembershipProvider().ValidateUser(model.UserName, model.Password))
+                if (membershipProvider.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")

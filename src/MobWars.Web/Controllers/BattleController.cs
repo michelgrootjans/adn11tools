@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using MobWars.Core.Battle;
+using MobWars.Core.Infrastructure;
 using MvcContrib.ActionResults;
 
 namespace MobWars.Web.Controllers
@@ -7,10 +8,19 @@ namespace MobWars.Web.Controllers
     [Authorize]
     public class BattleController : Controller
     {
+        private readonly ICommandDispatcher dispatcher;
+        private readonly PlayerBattleQueryHandler playerBattleQueryHandler;
+
+        public BattleController(ICommandDispatcher dispatcher, PlayerBattleQueryHandler playerBattleQueryHandler)
+        {
+            this.dispatcher = dispatcher;
+            this.playerBattleQueryHandler = playerBattleQueryHandler;
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
-            var handler = new PlayerBattleQueryHandler();
+            var handler = playerBattleQueryHandler;
             var battle = handler.Handle();
             return battle.IsOngoing
                        ? Fight(battle)
@@ -25,35 +35,35 @@ namespace MobWars.Web.Controllers
         [HttpPost]
         public ActionResult StartEasyFight()
         {
-            new StarFightCommandHandler().Handle(new StartEasyFightCommand());
+            dispatcher.Dispatch(new StartEasyFightCommand());
             return new RedirectToRouteResult<BattleController>(c => c.Index());
         }
 
         [HttpPost]
         public ActionResult StartRiskyFight()
         {
-            new StarFightCommandHandler().Handle(new StartRiskyFightCommand());
+            dispatcher.Dispatch(new StartRiskyFightCommand());
             return new RedirectToRouteResult<BattleController>(c => c.Index());
         }
 
         [HttpPost]
         public ActionResult StartDeadlyFight()
         {
-            new StarFightCommandHandler().Handle(new StartDeadlyFightCommand());
+            dispatcher.Dispatch(new StartDeadlyFightCommand());
             return new RedirectToRouteResult<BattleController>(c => c.Index());
         }
 
         [HttpPost]
         public ActionResult Attack()
         {
-            new AttackCommandHandler().Handle(new AttackCommand());
+            dispatcher.Dispatch(new AttackCommand());
             return new RedirectToRouteResult<BattleController>(c => c.Index());
         }
 
         [HttpPost]
         public ActionResult Retreat()
         {
-            new RetreatCommandHandler().Handle(new RetreatCommand());
+            dispatcher.Dispatch(new RetreatCommand());
             return new RedirectToRouteResult<BattleController>(c => c.Index());
         }
     }

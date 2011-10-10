@@ -6,10 +6,17 @@ namespace MobWars.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly IGetPlayerInfoQueryHandler getPlayerInfoQueryHandler;
+
+        public HomeController(IGetPlayerInfoQueryHandler getPlayerInfoQueryHandler)
+        {
+            this.getPlayerInfoQueryHandler = getPlayerInfoQueryHandler;
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
-            var dto = new GetPlayerInfoQueryHandler().HandleQuery();
+            var dto = getPlayerInfoQueryHandler.HandleQuery();
             return View(dto);
         }
     }

@@ -5,7 +5,7 @@ namespace MobWars.Core.Infrastructure
 {
     public interface IGenericListMapper
     {
-        IEnumerable<TTo> ToAListOf<TTo>();
+        List<TTo> ToAListOf<TTo>();
     }
 
     public class GenericListMapper<TFrom> : IGenericListMapper
@@ -17,9 +17,9 @@ namespace MobWars.Core.Infrastructure
             this.items = items;
         }
 
-        public IEnumerable<TTo> ToAListOf<TTo>()
+        public List<TTo> ToAListOf<TTo>()
         {
-            return Mapper.Map<IEnumerable<TFrom>, IEnumerable<TTo>>(items);
+            return Mapper.Map<IEnumerable<TFrom>, List<TTo>>(items);
         }
     }
 }
