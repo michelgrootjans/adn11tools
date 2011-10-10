@@ -4,10 +4,15 @@ namespace MobWars.Core.Entities
 {
     public abstract class Item
     {
-        public virtual Guid Id { get; internal set; }
-        public virtual Player Owner { get; internal set; }
-        public virtual string Name { get; internal set; }
-        public virtual int Price { get; internal set; }
+        private Guid id;
+        public virtual Guid Id
+        {
+            get { return id; }
+        }
+
+        public virtual Player Owner { get; set; }
+        public virtual string Name { get; set; }
+        public virtual int Price { get; set; }
 
         protected Item()
         {
