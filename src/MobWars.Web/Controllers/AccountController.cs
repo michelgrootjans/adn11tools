@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
+using MobWars.Core.Authentication;
 using MobWars.Web.Models;
 using MvcContrib;
 using MembershipProvider = MobWars.Core.Authentication.MembershipProvider;
@@ -8,9 +9,9 @@ namespace MobWars.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly MembershipProvider membershipProvider;
+        private readonly IMembershipProvider membershipProvider;
 
-        public AccountController(MembershipProvider membershipProvider)
+        public AccountController(IMembershipProvider membershipProvider)
         {
             this.membershipProvider = membershipProvider;
         }
