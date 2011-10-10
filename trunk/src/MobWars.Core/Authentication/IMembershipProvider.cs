@@ -1,6 +1,6 @@
 using MobWars.Core.Entities;
 using MobWars.Core.Extensions;
-using MobWars.Core.Players;
+using NHibernate;
 using NHibernate.Criterion;
 
 namespace MobWars.Core.Authentication
@@ -12,18 +12,22 @@ namespace MobWars.Core.Authentication
 
     public class MembershipProvider : IMembershipProvider
     {
+        private readonly ISession session;
+
+        public MembershipProvider(ISession session)
+        {
+            this.session = session;
+        }
+
         public bool ValidateUser(string username, string password)
         {
-            using (var session = NHibernateSessionProvider.OpenSession())
-            {
-                var player = session
-                    .CreateCriteria<Player>()
-                    .Add(Restrictions.Eq("Username", username))
-                    .Add(Restrictions.Eq("Password", password))
-                    .UniqueResult<Player>();
+            var player = session
+                .CreateCriteria<Player>()
+                .Add(Restrictions.Eq("Username", username))
+                .Add(Restrictions.Eq("Password", password))
+                .UniqueResult<Player>();
 
-                return player.Exists();
-            }
+            return player.Exists();
         }
     }
 }
