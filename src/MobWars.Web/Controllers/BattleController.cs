@@ -9,9 +9,9 @@ namespace MobWars.Web.Controllers
     public class BattleController : Controller
     {
         private readonly ICommandDispatcher dispatcher;
-        private readonly PlayerBattleQueryHandler playerBattleQueryHandler;
+        private readonly IPlayerBattleQueryHandler playerBattleQueryHandler;
 
-        public BattleController(ICommandDispatcher dispatcher, PlayerBattleQueryHandler playerBattleQueryHandler)
+        public BattleController(ICommandDispatcher dispatcher, IPlayerBattleQueryHandler playerBattleQueryHandler)
         {
             this.dispatcher = dispatcher;
             this.playerBattleQueryHandler = playerBattleQueryHandler;
