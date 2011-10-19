@@ -13,6 +13,11 @@ namespace MobWars.Web.App_Start
         public static void PreStart()
         {
             var container = new WindsorContainer();
+            Configure(container);
+        }
+
+        internal static void Configure(WindsorContainer container)
+        {
             container.AddFacility<TypedFactoryFacility>();
             container.Install(FromAssembly.This());
         }
