@@ -1,7 +1,7 @@
 ﻿using NHibernate;
 using NHibernate.Cfg;
 
-namespace MobWars.Core.Players
+namespace MobWars.Core.Infrastructure
 {
     public static class NHibernateSessionProvider
     {

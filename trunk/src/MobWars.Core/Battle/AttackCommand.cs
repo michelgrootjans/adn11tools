@@ -1,5 +1,4 @@
 using MobWars.Core.Infrastructure;
-using MobWars.Core.Players;
 using MobWars.Core.Queries;
 
 namespace MobWars.Core.Battle
@@ -19,13 +18,8 @@ namespace MobWars.Core.Battle
 
         public void Handle(AttackCommand command)
         {
-            using (var session = NHibernateSessionProvider.OpenSession())
-            using (var transaction = session.BeginTransaction())
-            {
-                var player = getPlayerQuery.GetCurrentPlayer();
-                player.AttackAdversary();
-                transaction.Commit();
-            }
+            var player = getPlayerQuery.GetCurrentPlayer();
+            player.AttackAdversary();
         }
     }
 }

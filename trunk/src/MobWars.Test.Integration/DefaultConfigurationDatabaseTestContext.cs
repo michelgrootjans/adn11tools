@@ -1,7 +1,6 @@
-﻿using MobWars.Core.Players;
+﻿using MobWars.Core.Infrastructure;
 using MobWars.Migrations.FakeRake;
 using NHibernate;
-using NHibernate.Cfg;
 
 namespace MobWars.Test.Integration
 {
