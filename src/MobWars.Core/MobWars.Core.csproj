@@ -76,7 +76,7 @@
     <Compile Include="Infrastructure\INhibernateQuery.cs" />
     <Compile Include="Infrastructure\IQueryHandlerFactory.cs" />
     <Compile Include="Infrastructure\NHibernateTransactionInterceptor.cs" />
-    <Compile Include="Players\NHibernateSessionProvider.cs" />
+    <Compile Include="Infrastructure\NHibernateSessionProvider.cs" />
     <Compile Include="Players\ViewPlayerInfoDto.cs" />
     <Compile Include="Players\IGetPlayerInfoQueryHandler.cs" />
     <Compile Include="Infrastructure\IQueryHandler.cs" />
