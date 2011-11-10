@@ -2,6 +2,7 @@ using MobWars.Core.Entities;
 using MobWars.Core.Infrastructure;
 using NHibernate;
 using NHibernate.Criterion;
+using System.Linq;
 
 namespace MobWars.Core.Queries
 {
@@ -23,10 +24,9 @@ namespace MobWars.Core.Queries
 
         public Player GetCurrentPlayer()
         {
-            return session
-                .CreateCriteria<Player>()
-                .Add(Restrictions.Eq("Username", applicationContext.CurrentUserName))
-                .UniqueResult<Player>();
+            return session.QueryOver<Player>()
+                .Where(p => p.Username == applicationContext.CurrentUserName)
+                .List().FirstOrDefault();
         }
     }
 }

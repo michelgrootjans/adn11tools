@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using MobWars.Core.Entities;
 using MobWars.Core.Infrastructure;
 using NHibernate;
-using NHibernate.Criterion;
 
 namespace MobWars.Core.Queries
 {
@@ -22,10 +21,9 @@ namespace MobWars.Core.Queries
 
         public IEnumerable<Item> GetItemsForSale()
         {
-            return session
-                .CreateCriteria<Item>()
-                .Add(Restrictions.IsNull("Owner"))
-                .Future<Item>();
+            return session.QueryOver<Item>()
+                .Where(i => i.Owner != null)
+                .Future();
         }
     }
 }

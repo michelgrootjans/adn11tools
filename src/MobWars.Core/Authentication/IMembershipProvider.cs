@@ -1,7 +1,7 @@
+using System.Linq;
 using MobWars.Core.Entities;
 using MobWars.Core.Extensions;
 using NHibernate;
-using NHibernate.Criterion;
 
 namespace MobWars.Core.Authentication
 {
@@ -21,11 +21,11 @@ namespace MobWars.Core.Authentication
 
         public bool ValidateUser(string username, string password)
         {
-            var player = session
-                .CreateCriteria<Player>()
-                .Add(Restrictions.Eq("Username", username))
-                .Add(Restrictions.Eq("Password", password))
-                .UniqueResult<Player>();
+            var player = session.QueryOver<Player>()
+                .Where(p => p.Username == username)
+                .Where(p => p.Password == password)
+                .List()
+                .FirstOrDefault();
 
             return player.Exists();
         }

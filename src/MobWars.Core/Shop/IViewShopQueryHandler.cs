@@ -1,5 +1,4 @@
 using MobWars.Core.Infrastructure;
-using MobWars.Core.Players;
 using MobWars.Core.Queries;
 
 namespace MobWars.Core.Shop
@@ -12,28 +11,28 @@ namespace MobWars.Core.Shop
     public class ViewShopQueryHandler : IViewShopQueryHandler
     {
         private readonly IGetCurrentPlayerDbQuery playerQuery;
+        private readonly IGetShopDbQuery shopQuery;
         private readonly IGenericMapper mapper;
 
-        public ViewShopQueryHandler(IGetCurrentPlayerDbQuery playerQuery, IGenericMapper mapper)
+        public ViewShopQueryHandler(IGetCurrentPlayerDbQuery playerQuery, IGetShopDbQuery shopQuery,
+                                    IGenericMapper mapper)
         {
             this.playerQuery = playerQuery;
+            this.shopQuery = shopQuery;
             this.mapper = mapper;
         }
 
         public ViewShopDto HandleQuery()
         {
-            using (var session = NHibernateSessionProvider.SessionFactory.OpenSession())
-            {
-                var items = new GetShopDbQuery(session).GetItemsForSale();
-                var player = playerQuery.GetCurrentPlayer();
+            var items = shopQuery.GetItemsForSale();
+            var player = playerQuery.GetCurrentPlayer();
 
-                return new ViewShopDto
-                           {
-                               Gold = player.Gold,
-                               Inventory = mapper.Map(player.Inventory).ToAListOf<ItemDto>(),
-                               Shop = mapper.Map(items).ToAListOf<ItemDto>()
-                           };
-            }
+            return new ViewShopDto
+                       {
+                           Gold = player.Gold,
+                           Inventory = mapper.Map(player.Inventory).ToAListOf<ItemDto>(),
+                           Shop = mapper.Map(items).ToAListOf<ItemDto>()
+                       };
         }
     }
 }
