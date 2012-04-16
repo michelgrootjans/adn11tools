@@ -38,9 +38,9 @@ namespace MobWars.Core.Entities
             get { return Adversary.Exists() && Adversary.IsAlive; }
         }
 
-        public virtual void StartFighting(Character monster)
+        public virtual void StartFighting(Character adversary)
         {
-            Adversary = monster;
+            Adversary = adversary;
         }
 
         public virtual void AttackAdversary()

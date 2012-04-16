@@ -40,7 +40,7 @@ namespace MobWars.Test.Unit.Battle
         protected override void Arrange()
         {
             dto = new BattleDto();
-            handler.Stub(h => h.Handle()).Return(dto);
+            handler.Stub(h => h.GetCurrentBattle()).Return(dto);
         }
 
         protected override ActionResult Act(BattleController controller)
@@ -51,7 +51,7 @@ namespace MobWars.Test.Unit.Battle
         [Test]
         public void should_get_data_from_handler()
         {
-            handler.AssertWasCalled(h => h.Handle());
+            handler.AssertWasCalled(h => h.GetCurrentBattle());
         }
 
         [Test]
