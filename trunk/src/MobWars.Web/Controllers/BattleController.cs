@@ -9,19 +9,18 @@ namespace MobWars.Web.Controllers
     public class BattleController : Controller
     {
         private readonly ICommandDispatcher dispatcher;
-        private readonly IPlayerBattleQueryHandler playerBattleQueryHandler;
+        private readonly IPlayerBattleQueryHandler battleQuery;
 
-        public BattleController(ICommandDispatcher dispatcher, IPlayerBattleQueryHandler playerBattleQueryHandler)
+        public BattleController(ICommandDispatcher dispatcher, IPlayerBattleQueryHandler battleQuery)
         {
             this.dispatcher = dispatcher;
-            this.playerBattleQueryHandler = playerBattleQueryHandler;
+            this.battleQuery = battleQuery;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            var handler = playerBattleQueryHandler;
-            var battle = handler.Handle();
+            var battle = battleQuery.GetCurrentBattle();
             return battle.IsOngoing
                        ? Fight(battle)
                        : View(battle);

@@ -5,7 +5,7 @@ namespace MobWars.Core.Battle
 {
     public interface IPlayerBattleQueryHandler : IQueryHandler
     {
-        BattleDto Handle();
+        BattleDto GetCurrentBattle();
     }
 
     public class PlayerBattleQueryHandler : IPlayerBattleQueryHandler
@@ -19,7 +19,7 @@ namespace MobWars.Core.Battle
             this.mapper = mapper;
         }
 
-        public BattleDto Handle()
+        public BattleDto GetCurrentBattle()
         {
             var player = getCurrentPlayerQuery.GetCurrentPlayer();
             var battle = new BattleDto
