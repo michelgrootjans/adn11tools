@@ -1,0 +1,1 @@
+Session about time-saving tools in .net
